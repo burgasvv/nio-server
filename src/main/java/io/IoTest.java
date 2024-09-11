@@ -1,6 +1,7 @@
 package io;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -18,12 +19,14 @@ public class IoTest {
         byte[] bytes = bufferedInputStream.readAllBytes();
 
         try (
-                FileOutputStream fileOutputStream = new FileOutputStream(
-                        "src/main/resources/images/pagani-huayra.jpg"
+                BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
+                        new FileOutputStream(
+                                "src/main/resources/images/pagani-huayra.jpg"
+                        )
                 )
         ) {
-            fileOutputStream.write(bytes);
-            fileOutputStream.flush();
+            bufferedOutputStream.write(bytes);
+            bufferedOutputStream.flush();
         }
     }
 }

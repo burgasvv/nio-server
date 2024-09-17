@@ -12,7 +12,6 @@ import java.util.Set;
 
 public class NioServer {
 
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private final Set<SocketChannel>clients = new HashSet<>();
 
     public void start(int port) {
@@ -33,8 +32,7 @@ public class NioServer {
 
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 
-            //noinspection InfiniteLoopStatement
-            while (true) {
+            while (serverSocketChannel.isOpen()) {
 
                 if (selector.select() == 0) {
                     continue;
@@ -94,5 +92,10 @@ public class NioServer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @SuppressWarnings("unused")
+    public Set<SocketChannel> getClients() {
+        return clients;
     }
 }

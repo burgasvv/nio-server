@@ -16,7 +16,7 @@ public class IoTest {
                         .toURL().openStream()
         );
 
-        byte[] bytes = bufferedInputStream.readAllBytes();
+        byte[] carImageBytes = bufferedInputStream.readAllBytes();
 
         try (
                 BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
@@ -25,7 +25,7 @@ public class IoTest {
                         )
                 )
         ) {
-            bufferedOutputStream.write(bytes);
+            bufferedOutputStream.write(carImageBytes);
             bufferedOutputStream.flush();
         }
     }

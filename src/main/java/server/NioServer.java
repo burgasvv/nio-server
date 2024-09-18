@@ -30,7 +30,6 @@ public class NioServer {
                     "Server is started on port: " + port
             );
 
-            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 
             while (serverSocketChannel.isOpen()) {
 
@@ -40,6 +39,8 @@ public class NioServer {
 
                 for (SelectionKey key : selector.selectedKeys()) {
 
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+
                     if (key.isAcceptable()) {
 
                         if (key.channel() instanceof ServerSocketChannel channel) {
@@ -47,7 +48,7 @@ public class NioServer {
 
                             System.out.println(
                                     "Client " + client.socket().getInetAddress().getHostAddress() +
-                                    ": " + client.socket().getPort() + " is connected"
+                                    ": " + client.socket().getPort() + " is CONNECTED"
                             );
 
                             client.configureBlocking(false);
@@ -66,16 +67,17 @@ public class NioServer {
                             if (read == -1) {
 
                                 System.out.println(
-                                        "Disconnect client: " + client.socket().getInetAddress().getHostAddress() +
-                                        ": " + client.socket().getPort()
+                                        "Client: " + client.socket().getInetAddress().getHostAddress() +
+                                        ": " + client.socket().getPort() + " is DISCONNECTED"
                                 );
 
                                 client.close();
                                 clients.remove(client);
+                                continue;
                             }
 
                             byteBuffer.flip();
-                            System.out.println(
+                            System.out.print(
                                     new String(byteBuffer.array(), byteBuffer.position(), read)
                             );
                             byteBuffer.clear();
